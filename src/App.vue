@@ -6,7 +6,7 @@
 </template>
 
 <style lang="scss">
-@import "@/scss/variables.scss";
+@import "@/theme/variables.scss";
 
 body {
   background: linear-gradient(
@@ -30,6 +30,7 @@ body {
 }
 
 nav {
+  margin-bottom: $spacing * 3;
   a {
     font-weight: bold;
     color: $dark-main;
