@@ -21,6 +21,7 @@ export default {
   },
   computed: {
     ...mapState({
+      members: (state) => state.treeData.members,
       memberSquareSize: (state) => state.treeSettings.memberSquareSize,
       memberSquareRadius: (state) => state.treeSettings.memberSquareRadius,
       memberSquareStrokeColor: (state) =>
@@ -35,19 +36,12 @@ export default {
     await nextTick();
     this.initContainer();
     try {
-      this.addMember(
-        {
-          name: "Test",
-          surname: "Testerson",
-          /* photo:
-            "http://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Widderkaninchen.JPG/561px-Widderkaninchen.JPG",*/
-        },
-        { posX: 20, posY: 20 }
-      );
-      this.addMember(
-        { name: "Relative", surname: "Relativoff" },
-        { posX: 200, posY: 20 }
-      );
+      for (const memberId in this.members) {
+        this.addMember(
+          this.members[memberId].data,
+          this.members[memberId].position
+        );
+      }
     } catch (e) {
       alert(e);
     }
@@ -84,7 +78,6 @@ export default {
         .style("fill", "transparent");
 
       // add image:
-
       if (photo) {
         // todo
       } else {
@@ -114,7 +107,6 @@ export default {
 
       // add surname
       if (surname) {
-        console.log(surname);
         const surnameEl = this.treeEl
           .append("text")
           .text(surname)
