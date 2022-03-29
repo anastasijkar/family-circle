@@ -1,6 +1,5 @@
 <template>
   <div class="tree">
-    This is a tree component.
     <div id="tree-container"></div>
   </div>
 </template>
@@ -35,6 +34,7 @@ export default {
   async mounted() {
     await nextTick();
     this.initContainer();
+    this.initSvgDefs();
     try {
       for (const memberId in this.members) {
         this.addMember(
@@ -54,7 +54,20 @@ export default {
         .attr("width", this.treeWidth)
         .attr("height", this.treeHeight);
     },
+    initSvgDefs() {
+      const defs = this.treeEl.append("defs");
+      defs
+        .append("clipPath")
+        .attr("id", "photo-clip")
+        .append("rect")
+        .attr("width", this.memberSquareSize)
+        .attr("height", this.memberSquareSize)
+        .attr("rx", this.memberSquareRadius)
+        .attr("ry", this.memberSquareRadius);
+    },
     addMember(data, position) {
+      // TODO: move to separate Member component
+
       const { name, surname, photo } = data;
 
       if (!name) {
@@ -79,7 +92,15 @@ export default {
 
       // add image:
       if (photo) {
-        // todo
+        this.treeEl
+          .append("image")
+          .attr("x", 0)
+          .attr("y", 0)
+          .attr("width", this.memberSquareSize)
+          .attr("height", this.memberSquareSize)
+          .attr("xlink:href", photo)
+          .attr("clip-path", "url(#photo-clip)")
+          .attr("transform", `translate(${posX}, ${posY})`);
       } else {
         const imageG = this.treeEl.append("g");
         imageG

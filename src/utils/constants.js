@@ -1,0 +1,9 @@
+export const SPACINGS = {
+  PARTNERS_X: 160,
+};
+
+export const RELATION_TYPES = {
+  ENGAGED: "ENGAGED",
+  MARRIED: "MARRIED",
+  DIVORCED: "DIVORCED",
+};
